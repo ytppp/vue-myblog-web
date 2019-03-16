@@ -11,7 +11,33 @@ export default new Router({
     },
     {
       path: '/index',
-      component: () => import('./views/Index.vue')
+      component: () => import('./views/Index.vue'),
+      children: [
+        {
+          path: 'home',
+          component: () => import('./layouts/Home')
+        },
+        {
+          path: 'list',
+          component: () => import('./layouts/List')
+        },
+        {
+          path: 'detail',
+          component: () => import('./layouts/Detail')
+        },
+        {
+          path: 'mood',
+          component: () => import('./layouts/Mood')
+        },
+        {
+          path: 'message',
+          component: () => import('./layouts/MessageBoard')
+        },
+        {
+          path: 'timeline',
+          component: () => import('./layouts/Timeline')
+        }
+      ]
     }
   ]
 })

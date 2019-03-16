@@ -1,23 +1,23 @@
-@left: {
+.left{
   display: flex;
   justify-content: flex-start;
   align-items: center;
-};
+}
 
-@right: {
+.right{
   display: flex;
   justify-content: flex-end;
   align-items: center;
-};
+}
 
-@center: {
+.center{
   display: flex;
   justify-content: center;
   align-items: center;
-};
+}
 
-@ellipsis: {
+.ellipsis{
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-};
+}
