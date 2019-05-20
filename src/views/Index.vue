@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Header from '../layouts/Header'
-import Footer from '../layouts/Footer'
+import Header from '../layouts/Index/Header'
+import Footer from '../layouts/Index/Footer'
 
 export default {
   components: {
@@ -17,6 +17,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-</style>

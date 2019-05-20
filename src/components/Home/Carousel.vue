@@ -1,14 +1,14 @@
 <template>
   <a-carousel autoplay effect="fade" arrows>
     <div
-      slot="prevArrow" slot-scope="props"
+      slot="prevArrow"
       class="custom-slick-arrow"
       style="left: 10px;zIndex: 1"
     >
       <a-icon type="left-circle" />
     </div>
     <div
-      slot="nextArrow" slot-scope="props"
+      slot="nextArrow"
       class="custom-slick-arrow"
       style="right: 10px"
     >
@@ -53,5 +53,3 @@ export default {
   color: #fff;
 }
 </style>
-
-
