@@ -7,7 +7,7 @@
           itemLayout="horizontal"
           :dataSource="data"
         >
-          <a-list-item slot="renderItem" slot-scope="item, index">
+          <a-list-item slot="renderItem" slot-scope="item">
             <a-comment
               :author="item.author"
               :avatar="item.avatar"
@@ -49,14 +49,14 @@ export default {
           avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
           content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
           datetime: moment().subtract(2, 'days')
-        },
+        }
       ],
       moment,
       likes: 0
     }
   },
   methods: {
-    like() {
+    like () {
       this.likes = 1
       this.dislikes = 0
       this.action = 'liked'

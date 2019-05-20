@@ -26,38 +26,39 @@
           <a-form
             layout="inline"
             :form="form"
-            @submit="handleSubmit"
           >
             <a-form-item>
-              <a-input-search placeholder="请输入搜索内容" />
+              <a-input-search v-on:keyup.enter="handleSubmit" v-model="searchValue" placeholder="请输入搜索内容" />
             </a-form-item>
           </a-form>
         </li>
-        <li class="nav-item add">
-          <a-dropdown>
-            <a-menu slot="overlay" @click="handleMenuClick">
-              <a-menu-item key="1">写留言</a-menu-item>
-              <a-menu-item key="2">申请友情链接</a-menu-item>
-            </a-menu>
-            <a-button type="primary" style="margin-left: 8px">
-              分享文章 <a-icon type="down" />
-            </a-button>
-          </a-dropdown>
+        <li class="nav-item login-reg" v-if="userInfoObj.id == 0">
+          <a-button @click="goLoginPage">登录</a-button>
+          <a-divider type="vertical" />
+          <a-button @click="goRegPage">注册</a-button>
         </li>
-        <li class="nav-item notification">
-          <a href="#">
-            <a-icon type="bell" />
-          </a>
-        </li>
-        <li class="nav-item">
-          <a-dropdown>
-            <a-menu slot="overlay" @click="handleMenuClick">
-              <a-menu-item key="1">写留言</a-menu-item>
-              <a-menu-item key="2">申请友情链接</a-menu-item>
-            </a-menu>
-            <a-avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-          </a-dropdown>
-        </li>
+        <template v-else>
+          <li class="nav-item">
+            <a-dropdown>
+              <a-menu slot="overlay" @click="handleMenuClick">
+                <a-menu-item key="1">写留言</a-menu-item>
+                <a-menu-item key="2">申请友链</a-menu-item>
+              </a-menu>
+              <a-button type="primary" style="margin-left: 8px">
+                操作 <a-icon type="down" />
+              </a-button>
+            </a-dropdown>
+          </li>
+          <li class="nav-item">
+            <a-dropdown>
+              <a-menu slot="overlay" @click="handleMenuClick">
+                <a-menu-item key="1">个人中心</a-menu-item>
+                <a-menu-item key="2">退出登录</a-menu-item>
+              </a-menu>
+              <a-avatar :src="userInfoObj.avatar" />
+            </a-dropdown>
+          </li>
+        </template>
       </ul>
     </nav>
   </div>
@@ -65,25 +66,49 @@
 </template>
 
 <script>
+import { userMixin } from '@/utils/mixin'
+
 export default {
+  mixins: [userMixin],
+  props: {
+    userInfoObj: {
+      default: () => {
+        return {
+          id: 0,
+          name: '',
+          avatar: ''
+        }
+      }
+    }
+  },
   data () {
     return {
-      form: this.$form.createForm(this)
+      searchValue: ''
     }
   },
   methods: {
-    handleSubmit (e) {
-      e.preventDefault()
-      console.log('123')
+    handleSubmit () {
+      if (this.searchValue !== '') {
+        console.log(this.searchValue)
+      }
     },
     handleMenuClick (e) {
-      console.log('click', e)
+      if (e.key === '1') {
+        this.$router.push('/user-center')
+      } else if (e.key === '2') {
+        this.userInfoObj.id = 0
+        this.clearUserInfo()
+      }
+    },
+    goLoginPage () {
+      this.$router.push('/login')
+    },
+    goRegPage () {
+      this.$router.push('/register')
     }
   },
-  mounted () {
-    this.$nextTick(() => {
-      this.form.validateFields()
-    })
+  beforeCreate () {
+    this.form = this.$form.createForm(this)
   }
 }
 </script>
@@ -139,5 +164,8 @@ export default {
   flex: 1 1 auto;
   justify-content: flex-end;
   cursor: auto;
+}
+.login-reg {
+  font-size: 14px;
 }
 </style>
