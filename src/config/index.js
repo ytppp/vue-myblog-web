@@ -195,6 +195,51 @@ export const USER_LIST_COLUMNS_CONFIG = [
   }
 ]
 
+// 公告配置
+export const NOTICE_LIST_COLUMNS_CONFIG = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id'
+  },
+  {
+    title: '标题',
+    dataIndex: 'name',
+    key: 'name'
+  },
+  {
+    title: '内容',
+    dataIndex: 'content',
+    key: 'content',
+    scopedSlots: {
+      customRender: 'content'
+    }
+  },
+  {
+    title: '草稿',
+    dataIndex: 'is_draft',
+    key: 'is_draft'
+  },
+  {
+    title: '状态',
+    dataIndex: 'status',
+    key: 'status'
+  },
+  {
+    title: '发布时间',
+    dataIndex: 'update_time',
+    key: 'update_time'
+  },
+  {
+    title: '操作',
+    dataIndex: 'operation',
+    key: 'operation',
+    scopedSlots: {
+      customRender: 'operation'
+    }
+  }
+]
+
 // 文章列表配置
 export const ARTICLE_LIST_COLUMNS_CONFIG = [
   {
@@ -370,6 +415,44 @@ export const HOME_MOOD_LIST_CONFIG = [
   }
 ]
 
+// 首页友情链接列表配置
+export const LINKS_LIST_CONFIG = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id'
+  },
+  {
+    title: '网站名',
+    dataIndex: 'link_site_name',
+    key: 'link_site_name'
+  },
+  {
+    title: 'URL',
+    dataIndex: 'link_site_url',
+    key: 'link_site_url',
+    scopedSlots: { customRender: 'link_site_url' }
+  },
+  {
+    title: '状态',
+    dataIndex: 'status',
+    key: 'status'
+  },
+  {
+    title: '时间',
+    dataIndex: 'update_time',
+    key: 'update_time'
+  },
+  {
+    title: '操作',
+    dataIndex: 'operation',
+    key: 'operation',
+    scopedSlots: {
+      customRender: 'operation'
+    }
+  }
+]
+
 // 心情列表配置
 export const MOOD_COLUMNS_CONFIG = [
   {
@@ -433,6 +516,38 @@ export const TIMEAXIS_COLUMNS_CONFIG = [
     scopedSlots: {
       customRender: 'operation'
     }
+  }
+]
+
+// 站点记录列表配置
+export const SITELOG_COLUMNS_CONFIG = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id'
+  },
+  {
+    title: '日志',
+    dataIndex: 'log',
+    key: 'log'
+  },
+  {
+    title: '接口',
+    dataIndex: 'api',
+    key: 'api'
+  },
+  {
+    title: '结果',
+    dataIndex: 'is_success',
+    key: 'is_success',
+    scopedSlots: {
+      customRender: 'is_success'
+    }
+  },
+  {
+    title: '时间',
+    dataIndex: 'create_time',
+    key: 'create_time'
   }
 ]
 

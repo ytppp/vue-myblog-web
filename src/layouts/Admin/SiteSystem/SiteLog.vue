@@ -2,22 +2,15 @@
   <div class="container">
     <a-card class="card" title="网站日志" :bordered="false">
       <a-table
-        :columns="columns"
+        :rowKey="record => record.id"
+        :columns="SITELOG_COLUMNS_CONFIG"
         :dataSource="logList"
         :loading="tableLoading"
       >
-        <template slot="operation" slot-scope="text, record">
-          <a href="javascript:;" @click="showArticleDetail(record.id)">详情</a>
-          <a-divider type="vertical" />
-          <a-popconfirm
-            title="确定删除吗?"
-            cancelText="取消"
-            okText="确认"
-            @confirm="() => onDelete(record.id)">
-            <a href="javascript:;">删除</a>
-          </a-popconfirm>
-          <a-divider type="vertical" />
-        </template>
+        <span slot="is_success" slot-scope="is_success">
+          <a-tag color="#87d068" :key="is_success" v-if="is_success === 1">成功</a-tag>
+          <a-tag color="#f50" :key="is_success" v-else>失败</a-tag>
+        </span>
       </a-table>
     </a-card>
   </div>
@@ -25,16 +18,31 @@
 
 <script>
 import {
-  WORD_COLUMNS_CONFIG
+  SITELOG_COLUMNS_CONFIG
 } from '@/config'
 
 export default {
   data () {
     return {
-      columns: WORD_COLUMNS_CONFIG,
+      SITELOG_COLUMNS_CONFIG,
       logList: [],
       tableLoading: false
     }
+  },
+  methods: {
+    getSitelogList () {
+      this.tableLoading = true
+      this.$axios.get('/api/site/getSitelogList').then(res => {
+        const result = res.data
+        if (result.code === 1) {
+          this.logList = result.data.sitelog_list
+          this.tableLoading = false
+        }
+      })
+    }
+  },
+  beforeMount () {
+    this.getSitelogList()
   }
 }
 </script>
