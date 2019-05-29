@@ -50,6 +50,7 @@
         </div>
       </div>
       <a-table
+        :rowKey="record => record.id"
         :columns="MOOD_COLUMNS_CONFIG"
         :dataSource="moodsList"
         :loading="tableLoading"

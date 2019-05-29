@@ -7,7 +7,7 @@
         mode="inline"
         @click="handleClick"
         :style="{ width: '300px' }"
-        :selectedKeys="nowRouter"
+        :defaultSelectedKeys="defaultRouter"
       >
         <template v-for="menuItems in MENU_CONFIG">
           <a-sub-menu :key="menuItems.key" v-if="menuItems.children">
@@ -48,9 +48,10 @@
         </div>
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px 0' }">
-        <transition name="page-toggle">
+        <!-- <transition name="page-toggle">
           <router-view></router-view>
-        </transition>
+        </transition> -->
+        <router-view></router-view>
       </a-layout-content>
       <a-layout-footer :style="{textAlign: 'center', height: '40px' }">
         Copyright ©{{thisYear}} Created by 杨庭培
@@ -86,7 +87,7 @@ export default {
       siteName: '博客后台管理系统',
       userAvatar: '',
       userName: '',
-      nowRouter: ['home']
+      defaultRouter: ['home']
     }
   },
   methods: {
@@ -100,7 +101,6 @@ export default {
     },
     handleClick ({ key }) {
       this.findBreadCrumbArr(this.MENU_CONFIG, key)
-      this.nowRouter = [key]
       this.$router.push(`/admin/${key}`)
     },
     // 处理下拉列表点击

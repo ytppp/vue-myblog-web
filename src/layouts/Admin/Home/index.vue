@@ -112,6 +112,7 @@
                   置顶文章
                 </span>
                 <a-table
+                  :rowKey="record => record.id"
                   :columns="HOME_ARTICLE_LIST_CONFIG"
                   :dataSource="artList"
                   :loading="artTableLoading"
@@ -124,6 +125,7 @@
                   最热文章
                 </span>
                 <a-table
+                  :rowKey="record => record.id"
                   :columns="HOME_ARTICLE_LIST_CONFIG"
                   :dataSource="artList"
                   :loading="artTableLoading"
@@ -254,6 +256,7 @@
             <a href="javascript:;" @click="$router.push('/admin/user')" slot="extra"  style="margin-right: 6px">用户管理</a>
             <a href="javascript:;" @click="$router.push('/admin/link-friendly')" slot="extra">更多</a>
             <a-table
+              :rowKey="record => record.id"
               :columns="HOME_LINKS_LIST_CONFIG"
               :dataSource="linksList"
               :loading="linksTableLoading"
@@ -268,6 +271,7 @@
           <a-card class="card" title="最近留言" :bodyStyle="cardHeight" :hoverable="true">
             <a href="javascript:;" slot="extra" @click="$router.push({ path: '/admin/words', query: { type: 1 } })">更多</a>
             <a-table
+              :rowKey="record => record.id"
               :columns="HOME_WORDS_LIST_CONFIG"
               :dataSource="wordsList"
               :loading="wordsTableLoading"
@@ -291,6 +295,7 @@
           <a-card class="card" title="最近建议" :bodyStyle="cardHeight" :hoverable="true">
             <a href="javascript:;" slot="extra" @click="$router.push({ path: '/admin/words', query: { type: 2 } })">更多</a>
             <a-table
+              :rowKey="record => record.id"
               :columns="HOME_WORDS_LIST_CONFIG"
               :dataSource="feedbackList"
               :loading="wordsTableLoading"
@@ -314,6 +319,7 @@
           <a-card class="card" title="最近发表心情" :bodyStyle="cardHeight" :hoverable="true">
             <a href="javascript:;" slot="extra" @click="$router.push('/admin/mood')">更多</a>
             <a-table
+              :rowKey="record => record.id"
               :columns="HOME_MOOD_LIST_CONFIG"
               :dataSource="moodsList"
               :loading="wordsTableLoading"

@@ -106,6 +106,7 @@
           <a-button @click="resetSearchParams">重置搜索条件</a-button>
         </div>
         <a-table
+          :rowKey="record => record.id"
           :columns="columns"
           :dataSource="articleList"
           :loading="tableLoading"

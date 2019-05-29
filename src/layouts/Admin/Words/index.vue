@@ -47,6 +47,7 @@
         </div>
       </div>
       <a-table
+        :rowKey="record => record.id"
         :columns="WORD_COLUMNS_CONFIG"
         :dataSource="wordsList"
         :loading="tableLoading"

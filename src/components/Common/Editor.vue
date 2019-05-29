@@ -104,7 +104,9 @@ export default {
     }
   },
   mounted () {
-    this.setEditor()
+    this.$nextTick(() => {
+      this.setEditor()
+    })
   }
 }
 </script>

@@ -1,9 +1,10 @@
 const site = {
   state: {
-    routerInfo: null
+    routerInfo: JSON.parse(sessionStorage.getItem('routerInfo')) || {}
   },
   mutations: {
     'SET_ROUTER_INFO': (state, routerInfo) => {
+      sessionStorage.setItem('routerInfo', JSON.stringify(routerInfo))
       state.routerInfo = routerInfo
     }
   },

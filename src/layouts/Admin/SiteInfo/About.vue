@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <a-card class="card" title="关于自己" :bordered="false">
-      <a-form :form="siterform" class="form">
+      <a-form :form="siterForm" class="form">
         <a-row class="form-row">
           <a-col :span="6">
             <a-form-item
@@ -82,7 +82,7 @@
       </a-form>
     </a-card>
     <a-card class="card" title="关于网站" :bordered="false">
-      <a-form :form="siteform" class="form">
+      <a-form :form="siteForm" class="form">
         <a-row class="form-row">
           <a-col :span="6">
             <a-form-item
@@ -104,7 +104,7 @@
               label="建站时间"
               v-bind="formItemLayout"
             >
-              <a-date-picker v-decorator="['date-picker', config]" />
+              <a-month-picker v-decorator="['date-picker', config]" />
             </a-form-item>
           </a-col>
         </a-row>
@@ -155,8 +155,8 @@ export default {
     }
   },
   beforeCreate () {
-    this.siterForm = this.$siterform.createForm(this)
-    this.siteForm = this.$siteform.createForm(this)
+    this.siterForm = this.$form.createForm(this)
+    this.siteForm = this.$form.createForm(this)
   }
 }
 </script>
