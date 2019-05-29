@@ -385,7 +385,8 @@ export default {
 
 <style lang="less" scoped>
 .container {
-  height: 100vh;
+  background-color: #ffffff;
+  height: 100%;
   .form {
     .form-row {
       margin: 0 -8px

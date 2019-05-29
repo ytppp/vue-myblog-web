@@ -27,7 +27,7 @@
                         },
                         {
                           type: 'email',
-                          message: '请输入邮箱，最好是QQ邮箱'
+                          message: '请输入邮箱'
                         }
                       ]
                     }

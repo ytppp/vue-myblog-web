@@ -5,9 +5,10 @@
         <a-form-item
           label="新密码"
           :label-col="{ span: 2 }"
-          :wrapper-col="{ span: 4 }"
+          :wrapper-col="{ span: 6 }"
         >
           <a-input
+            type="password"
             v-decorator="[
               'new_psw',
               { 
@@ -19,9 +20,9 @@
                     whitespace: true 
                   },
                   {
-                    max: 20,
+                    max: 16,
                     min: 6,
-                    message: '密码长度在6到20个字符之间'
+                    message: '密码长度：6 到 16 个字符'
                   },
                   {
                     validator: validateToNextPassword
@@ -34,9 +35,10 @@
         <a-form-item
           label="确认密码"
           :label-col="{ span: 2 }"
-          :wrapper-col="{ span: 4 }"
+          :wrapper-col="{ span: 6 }"
         >
           <a-input
+            type="password"
             v-decorator="[
               'sure_psw',
               { 
@@ -58,8 +60,7 @@
         <a-form-item
           :wrapper-col="{ span: 4, offset: 2 }"
         >
-          <a-button class="btns" type="primary">修改密码</a-button>
-          <a-button class="btns">取消</a-button>
+          <a-button type="primary">修改密码</a-button>
         </a-form-item>
       </a-form>
     </a-card>
@@ -67,16 +68,19 @@
 </template>
 
 <script>
+import { userMixin } from '@/utils/mixin'
+
 export default {
+  mixins: [userMixin],
   methods: {
-    validateToNextPassword  (rule, value, callback) {
+    validateToNextPassword (rule, value, callback) {
       const form = this.form
       if (value && this.confirmDirty) {
-        form.validateFields(['confirm'], { force: true })
+        form.validateFields(['sure_psw'], { force: true })
       }
       callback()
     },
-    compareToFirstPassword  (rule, value, callback) {
+    compareToFirstPassword (rule, value, callback) {
       const form = this.form
       if (value && value !== form.getFieldValue('new_psw')) {
         callback(new Error('两次密码不一致!'))
@@ -93,9 +97,7 @@ export default {
 
 <style scoped>
 .container {
-  height: 100vh;
-}
-.btns {
-  margin-right: 8px;
+  background-color: #ffffff;
+  height: 100%
 }
 </style>

@@ -149,13 +149,17 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.top-wrapper {
-  height: 60px;
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  .btns-wrapper {
-    display: inline-block;
+.container {
+  background-color: #ffffff;
+  height: 100%;
+  .top-wrapper {
+    height: 60px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    .btns-wrapper {
+      display: inline-block;
+    }
   }
 }
 </style>

@@ -135,7 +135,8 @@ export default {
 
 <style scoped>
 .container {
-  height: 100vh;
+  background-color: #ffffff;
+  height: 100%;
 }
 .btns {
   margin-right: 8px;

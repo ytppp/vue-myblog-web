@@ -48,4 +48,8 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  background-color: #ffffff;
+  height: 100%
+}
 </style>

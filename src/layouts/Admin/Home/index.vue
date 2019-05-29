@@ -573,7 +573,6 @@ export default {
 
 <style lang="less" scoped>
 .container {
-  overflow: auto;
   .welcome-wrapper {
     text-align: right;
   }

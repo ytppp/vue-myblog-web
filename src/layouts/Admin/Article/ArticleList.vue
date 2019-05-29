@@ -511,6 +511,10 @@ export default {
 </script>
 
 <style scoped>
+.main-wrapper {
+  background-color: #ffffff;
+  height: 100%
+}
 .top-wrapper {
   height: 60px;
   display: flex;
@@ -522,9 +526,6 @@ export default {
 }
 .btns-wrapper {
   display: inline-block;
-}
-.table-wrapper {
-  height: 73vh;
 }
 
 .table-operations {

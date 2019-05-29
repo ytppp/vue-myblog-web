@@ -1,5 +1,5 @@
 <template>
-  <a-layout :style="{ height: '100vh' }">
+  <a-layout :style="{ minHeight: '100vh' }">
     <a-layout-sider :width = '300'>
       <div class="logo">{{ siteName }}</div>
       <a-menu
@@ -47,13 +47,13 @@
           </ul>
         </div>
       </a-layout-header>
-      <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
-        <div :style="{ padding: '24px', background: '#fff' }">
+      <a-layout-content :style="{ margin: '24px 16px 0' }">
+        <transition name="page-toggle">
           <router-view></router-view>
-        </div>
+        </transition>
       </a-layout-content>
-      <a-layout-footer :style="{textAlign: 'center'}">
-        Copyright &copy;{{thisYear}} 杨庭培
+      <a-layout-footer :style="{textAlign: 'center', height: '40px' }">
+        Copyright ©{{thisYear}} Created by 杨庭培
       </a-layout-footer>
     </a-layout>
   </a-layout>
@@ -89,68 +89,7 @@ export default {
       nowRouter: ['home']
     }
   },
-  /* beforeRouteEnter (to, from, next) {
-    next(vm => {
-      vm.matchRoute(to, from)
-    })
-  },
-  beforeRouteUpdate (to, from, next) {
-    this.matchRoute(to, from, next)
-  }, */
   methods: {
-    matchRoute (to, form, next) {
-      console.log(to.matched[1].path)
-      switch (to.matched[1].path) {
-        case '/admin/home':
-          this.$router.push('/admin/home')
-          break
-        case '/admin/article-list':
-          this.$router.push('/admin/article-list')
-          break
-        case '/admin/article-add':
-          this.$router.push('/admin/article-add')
-          break
-        case '/admin/user':
-          this.$router.push('/admin/user')
-          break
-        case '/admin/mood':
-          this.$router.push('/admin/mood')
-          break
-        case '/admin/words':
-          this.$router.push('/admin/words')
-          break
-        case '/admin/fontend-home':
-          this.$router.push('/admin/fontend-home')
-          break
-        case '/admin/photo-wall':
-          this.$router.push('/admin/photo-wall')
-          break
-        case '/admin/about':
-          this.$router.push('/admin/about')
-          break
-        case '/admin/notice':
-          this.$router.push('/admin/notice')
-          break
-        case '/admin/site-setting':
-          this.$router.push('/admin/site-setting')
-          break
-        case '/admin/link-friendly':
-          this.$router.push('/admin/link-friendly')
-          break
-        case '/admin/site-history':
-          this.$router.push('/admin/site-history')
-          break
-        case '/admin/site-log':
-          this.$router.push('/admin/site-log')
-          break
-        case '/admin/psw-modify':
-          this.$router.push('/admin/psw-modify')
-          break
-      }
-      if (typeof next === 'function') {
-        next()
-      }
-    },
     // 获得用户头像
     getUserAvatar () {
       if (this.userInfo.id && this.userInfo.is_admin === 1) {
@@ -166,7 +105,6 @@ export default {
     },
     // 处理下拉列表点击
     handleDropdownClick (e) {
-      // console.log(e.key)
       switch (parseInt(e.key)) {
         case 0:
           this.$router.push('/admin/article-add')
@@ -237,6 +175,7 @@ export default {
   height: 60px;
   padding: 0 16px;
   justify-content: space-between;
+  box-sizing: content-box;
 }
 .breadcrumb-wrapper {
   display: inline-block;

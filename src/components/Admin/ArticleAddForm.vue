@@ -415,6 +415,8 @@ export default {
     handleArticleAuthorChange (value) {
       if (value === 2) {
         this.urlFormItem = true
+      } else {
+        this.urlFormItem = false
       }
     },
     normFile (e) {
@@ -531,18 +533,6 @@ export default {
 
 <style lang="less" scoped>
 .form{
-  .form-row{
-    margin: 0 -8px
-  }
-  .ant-col-md-12,
-  .ant-col-sm-24,
-  .ant-col-lg-6,
-  .ant-col-lg-8,
-  .ant-col-lg-10,
-  .ant-col-xl-8,
-  .ant-col-xl-6{
-    padding: 0 8px
-  }
   .btns {
     margin-right: 8px;
   }

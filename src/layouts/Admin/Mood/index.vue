@@ -311,35 +311,27 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.form{
-  .form-row{
-    margin: 0 -8px
+.container {
+  background-color: #ffffff;
+  height: 100%;
+  .form {
+    .btns {
+      margin-right: 8px;
+    }
   }
-  .ant-col-md-12,
-  .ant-col-sm-24,
-  .ant-col-lg-6,
-  .ant-col-lg-8,
-  .ant-col-lg-10,
-  .ant-col-xl-8,
-  .ant-col-xl-6{
-    padding: 0 8px
+  .top-wrapper {
+    height: 60px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    .btns-wrapper {
+      display: inline-block;
+    }
   }
-  .btns {
-    margin-right: 8px;
+  .position-wrapper {
+    margin: 20px 0;
+    width: 60%;
   }
-}
-.top-wrapper {
-  height: 60px;
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  .btns-wrapper {
-    display: inline-block;
-  }
-}
-.position-wrapper {
-  margin: 20px 0;
-  width: 60%;
 }
 </style>
 

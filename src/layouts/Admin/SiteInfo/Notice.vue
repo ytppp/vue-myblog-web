@@ -3,7 +3,7 @@
     <a-card class="card" title="公告管理" :bordered="false">
       <div class="top-wrapper">
         <a-button @click="addNotice">
-          {{ noticeBtnName }}
+          发布公告
         </a-button>
       </div>
       <div class="main-wrapper">
@@ -96,7 +96,7 @@
         </div>
       </div>
     </a-card>
-    <!-- 公告增加修改弹窗 -->
+    <!-- 公告编辑弹窗 -->
     <a-modal
       v-model="noticeEditVisible"
       title="编辑公告"
@@ -156,9 +156,12 @@
       width="50%" 
     >
       <template slot="footer">
-        <a-button type="primary" @click="articleViewVisible = false">确认</a-button>
+        <a-button type="primary" @click="noticePreVisible = false">确认</a-button>
       </template>
-      <div>公告预览弹窗</div>
+      <div>
+        <h2>{{noticeObj.name}}</h2>
+        <div v-html="noticeObj.content"></div>
+      </div>
     </a-modal>
   </div>
 </template>
@@ -175,7 +178,6 @@ export default {
   },
   data () {
     return {
-      noticeBtnName: '发布公告',
       columns: NOTICE_LIST_COLUMNS_CONFIG,
       noticeList: [],
       tableLoading: false,
@@ -195,6 +197,38 @@ export default {
     }
   },
   methods: {
+    // 编辑公告
+    editNotice (id) {
+      this.noticeList.forEach(item => {
+        if (item.id === id) {
+          this.noticeObj = {
+            id: item.id,
+            name: item.name,
+            content: item.content,
+            status: item.status,
+            is_draft: item.is_draft
+          }
+        }
+      })
+      /* this.form.setFieldsValue({
+        title: this.noticeList.name
+      }) */
+      this.noticeEditVisible = true
+    },
+    showNotice (id) {
+      this.noticeList.forEach(item => {
+        if (item.id === id) {
+          this.noticeObj = {
+            id: item.id,
+            name: item.name,
+            content: item.content,
+            status: item.status,
+            is_draft: item.is_draft
+          }
+        }
+      })
+      this.noticePreVisible = true
+    },
     // 上传公告
     submitNotice (isDraft) {
       if (this.noticeObj.content === '') {
@@ -216,11 +250,12 @@ export default {
         }
       })
     },
+    getNoticeObj () {},
     // 点击取消时置空编辑公告弹窗
     clearNoticeObj () {
-      this.form.setFieldsValue({
+      /* this.form.setFieldsValue({
         title: ''
-      })
+      }) */
       this.isClearEditor = true
       this.noticeObj.name = ''
       this.noticeObj.content = ''
@@ -336,7 +371,8 @@ export default {
 
 <style lang="less" scoped>
 .container {
-  height: 100vh;
+  background-color: #ffffff;
+  height: 100%;
   .top-wrapper {
     padding: 6px;
   }

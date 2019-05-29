@@ -195,20 +195,24 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.form{
-  .form-row{
-    margin: 0 -8px
+.container {
+  background-color: #ffffff;
+  height: 100%;
+  .form{
+    .form-row{
+      margin: 0 -8px
+    }
   }
-}
-.top-wrapper {
-  height: 60px;
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  .btns-wrapper {
-    display: inline-block;
-    .btns {
-      margin-right: 8px;
+  .top-wrapper {
+    height: 60px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    .btns-wrapper {
+      display: inline-block;
+      .btns {
+        margin-right: 8px;
+      }
     }
   }
 }
