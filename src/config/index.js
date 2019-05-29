@@ -216,11 +216,6 @@ export const NOTICE_LIST_COLUMNS_CONFIG = [
     }
   },
   {
-    title: '草稿',
-    dataIndex: 'is_draft',
-    key: 'is_draft'
-  },
-  {
     title: '状态',
     dataIndex: 'status',
     key: 'status'
@@ -561,7 +556,10 @@ export const WORD_COLUMNS_CONFIG = [
   {
     title: '内容',
     dataIndex: 'content',
-    key: 'content'
+    key: 'content',
+    scopedSlots: {
+      customRender: 'content'
+    }
   },
   {
     title: '位置',

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <a-card class="card" title="留言管理" :bordered="false">
+    <a-card class="card" title="留言和建议管理" :bordered="false">
       <a-form :form="form" class="form">
         <a-row class="form-row">
           <a-col :span="6">
@@ -31,7 +31,7 @@
             class="btns"
             @change="handleTypeChange"
           >
-            <a-radio-button :value="1">留言</a-radio-button>
+            <a-radio-button :value="2">留言</a-radio-button>
             <a-radio-button :value="0">建议</a-radio-button>
           </a-radio-group>
           <a-radio-group
@@ -52,12 +52,15 @@
         :dataSource="wordsList"
         :loading="tableLoading"
       >
+        <template slot="content" slot-scope="content">
+          <div v-html="content"></div>
+        </template>
         <template slot="operation" slot-scope="text, record">
           <a-popconfirm
             title="确定删除吗?"
             cancelText="取消"
             okText="确认"
-            @confirm="() => handleWordsDelete(record.key)">
+            @confirm="() => handleWordsDelete(record.id)">
             <a href="javascript:;">删除</a>
           </a-popconfirm>
           <a-divider type="vertical" />
@@ -103,8 +106,8 @@ export default {
         is_check: false
       },
       searchParams: {
-        type: 1,
-        status: 0
+        type: 2,
+        status: 2
       }
     }
   },
@@ -122,7 +125,15 @@ export default {
         status: this.searchParams.status === 2 ? '' : this.searchParams.status,
         type: this.searchParams.type
       }
-      console.log(params)
+      this.$axios.get('/api/mood/getMoodList', {
+        params
+      }).then(res => {
+        const result = res.data
+        if (result.code === 1) {
+          this.wordsList = result.data.words_list
+          this.tableLoading = false
+        }
+      })
     },
     changeWordsStatus (text, id, status) {
       const wordsList = [...this.wordsList]
@@ -131,17 +142,46 @@ export default {
           switch (text) {
             case 'status':
               item.status = status === 1 ? 0 : 1
+              this.submitStatusChange(id, 'status', item.status)
               break
           }
         }
       })
       this.wordsList = wordsList
     },
+    submitStatusChange (id, key, value) {
+      this.$axios.get('/api/mood/changeMoodStatus', {
+        params: {
+          id,
+          key,
+          value
+        }
+      }).then(res => {
+        const result = res.data
+        if (result.code === 1) {
+          this.$message.success('更改状态成功')
+        } else {
+          this.$message.error('更改状态失败')
+        }
+      })
+    },
     handleWordsDelete (key) {
       const wordsList = [...this.wordsList]
-      this.wordsList = wordsList.filter(item => item.key !== key)
+      this.$axios.get('/api/mood/deleteMood', {
+        params: {
+          id: key
+        }
+      }).then(res => {
+        const result = res.data
+        if (result.code === 1) {
+          this.wordsList = wordsList.filter(item => item.id !== key)
+          this.$message.success('已删除该数据项')
+        } else {
+          this.$message.error('删除数据项失败')
+        }
+      })
     },
-    // 获得站点信息，这里包括两个：是否允许所有用户留言、是否开启留言审核
+    // 获得站点信息，这里包括两个：1 是否允许所有用户留言 2 是否开启留言审核
     getSiteInfo () {
       this.$axios.get('/api/site/getSiteStatus', {
         params: {
@@ -160,7 +200,6 @@ export default {
       })
     },
     handleSwitchChange (key, value) {
-      console.log(value)
       this.$axios.post('/api/site/setSiteStatus', {
         key,
         value
@@ -176,18 +215,19 @@ export default {
     getRouterInfo () {
       if (this.$route.query.type) {
         if (this.$route.query.type === 1) {
-          this.searchParams.type = 1
+          this.searchParams.type = 2
         } else if (this.$route.query.type === 2) {
           this.searchParams.type = 0
         }
       } else {
-        this.searchParams.type = 1
+        this.searchParams.type = 2
       }
     } 
   },
   beforeMount () {
     this.getRouterInfo()
     this.getSiteInfo()
+    this.getWordsList()
   },
   beforeCreate () {
     this.form = this.$form.createForm(this)

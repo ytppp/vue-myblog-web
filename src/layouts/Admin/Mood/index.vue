@@ -5,7 +5,7 @@
         <a-row class="form-row">
           <a-form-item
             label="心情"
-            :label-col="{ span: 1 }"
+            :label-col="{ span: 3 }"
             :wrapper-col="{ span: 8 }"
           >
             <rich-editor
@@ -18,7 +18,7 @@
           </a-form-item>
           <a-form-item
             label="是否私密"
-            :label-col="{ span: 1 }"
+            :label-col="{ span: 3 }"
             :wrapper-col="{ span: 12 }"
           >
             <a-switch v-model="moodObj.status" />
@@ -26,17 +26,16 @@
           </a-form-item>
           <a-form-item
             label="位置"
-            :label-col="{ span: 1 }"
-            :wrapper-col="{ span: 8 }"
+            :label-col="{ span: 3 }"
+            :wrapper-col="{ span: 12 }"
             v-if="moodObj.positionInfo"
           >
             <a-input placeholder="请选择位置" v-model="moodObj.positionInfo" />
           </a-form-item>
           <a-form-item
-            :wrapper-col="{ span: 8, offset: 1 }"
+            :wrapper-col="{ span: 8, offset: 3 }"
           >
             <a-button @click="submitMood" class="btns" type="primary">发表心情</a-button>
-            <a-button class="btns" type="danger">取消</a-button>
           </a-form-item>
         </a-row>
       </a-form>
@@ -73,7 +72,7 @@
             okText="确认"
             @confirm="() => changeMoodsStatus('status', record.id, record.status)">
             <a href="javascript:;">
-              {{ record.status === 1 ? '禁用' : '启用' }}
+              {{ record.status === 1 ? '设为私密' : '设为公开' }}
             </a>
           </a-popconfirm>
         </template>
@@ -130,7 +129,7 @@ export default {
       moodObj: {
         content: '',
         positionInfo: '',
-        status: true
+        status: false
       },
       searchParams: {
         status: 2
@@ -149,7 +148,6 @@ export default {
     // 获取编辑器内容
     getEditorContent (content) {
       this.moodObj.content = content
-      // console.log(this.moodObj.content)
     },
     initMap () {
       /* eslint-disable */
@@ -217,6 +215,7 @@ export default {
     },
     getMoodList () {
       let params = {
+        type: 1,
         status: this.searchParams.status === 2 ? '' : this.searchParams.status
       }
       this.tableLoading = true
@@ -225,7 +224,7 @@ export default {
       }).then(res => {
         const result = res.data
         if (result.code === 1) {
-          this.moodsList = result.data.mood_list
+          this.moodsList = result.data.words_list
           this.tableLoading = false
         }
       })
@@ -282,9 +281,10 @@ export default {
         return
       }
       this.$axios.post('/api/mood/addMood', {
+        type: 1,
         content: this.moodObj.content,
         position: this.moodObj.positionInfo,
-        status: this.moodObj.content === true ? 1 : 0
+        status: this.moodObj.status === true ? 1 : 0
       }).then((res) => {
         const result = res.data
         if (result.code === 1) {

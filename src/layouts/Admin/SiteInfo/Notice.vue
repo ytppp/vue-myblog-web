@@ -1,60 +1,7 @@
 <template>
-  <div class="container">
+  <div class="container my-notice">
     <a-card class="card" title="公告管理" :bordered="false">
-      <div class="top-wrapper">
-        <a-button @click="addNotice">
-          发布公告
-        </a-button>
-      </div>
       <div class="main-wrapper">
-        <div class="form-wrapper">
-          <div class="form-left-wrapper">
-            <a-form
-              layout="inline"
-              :form="form"
-              @submit="handleSearchSubmit"
-            >
-              <a-form-item>
-                <a-input
-                  v-decorator="[
-                    'title',
-                    {
-                      initialValue: '',
-                    }
-                  ]"
-                  placeholder="请输入公告标题"
-                >
-                  <a-icon
-                    slot="prefix"
-                    type="search"
-                    style="color:rgba(0,0,0,.25)"
-                  />
-                </a-input>
-              </a-form-item>
-              <a-form-item>
-                <a-button
-                  type="primary"
-                  html-type="submit"
-                >
-                  搜索
-                </a-button>
-              </a-form-item>
-            </a-form>
-          </div>
-          <div class="form-right-wrapper">
-            <a-radio-group :defaultValue="searchParam.status" buttonStyle="solid" @change="handleStatusChange">
-              <a-radio-button :value="2">全部</a-radio-button>
-              <a-radio-button :value="1">启用</a-radio-button>
-              <a-radio-button :value="0">禁用</a-radio-button>
-            </a-radio-group>
-            <a-divider type="vertical" />
-            <a-radio-group :defaultValue="searchParam.isDraft" buttonStyle="solid" @change="handleDraftChange">
-              <a-radio-button :value="2">全部</a-radio-button>
-              <a-radio-button :value="1">草稿</a-radio-button>
-              <a-radio-button :value="0">正式</a-radio-button>
-            </a-radio-group>
-          </div>
-        </div>
         <div class="table-wrapper">
           <a-table
             :rowKey = 'record => record.id'
@@ -70,27 +17,9 @@
               <a-divider type="vertical" />
               <a href="javascript:;" @click="showNotice(record.id)">详情</a>
               <a-divider type="vertical" />
-              <a-popconfirm
-                title="确定删除吗?"
-                cancelText="取消"
-                okText="确认"
-                @confirm="() => deleteNotice(record.id, record.title)">
-                <a href="javascript:;">删除</a>
-              </a-popconfirm>
-              <a-divider type="vertical" />
-              <a-dropdown>
-                <a class="ant-dropdown-link" href="#">
-                  更多操作 <a-icon type="down" />
-                </a>
-                <a-menu slot="overlay">
-                  <a-menu-item>
-                    <a href="javascript:;" @click="changeStatus('status', record.id, record.status)">{{ record.status === 1 ? '禁用' : '启用' }}</a>
-                  </a-menu-item>
-                  <a-menu-item>
-                    <a href="javascript:;" @click="changeStatus('is_draft', record.id, record.is_draft)">{{ record.is_draft === 1 ? '转为正式' : '转为草稿' }}</a>
-                  </a-menu-item>
-                </a-menu>
-              </a-dropdown>
+              <a-button :type="btnStyle" size="small" @click="changeStatus('status', record.id, record.status)">
+                {{ record.status === 1 ? '禁用' : '启用' }}
+              </a-button>
             </template>
           </a-table>
         </div>
@@ -105,9 +34,8 @@
     >
       <template slot="footer">
         <a-button @click="clearEditorContent" type="danger">清除内容</a-button>
-        <a-button @click="submitNotice(1)">存为草稿</a-button>
-        <a-button @click="submitNotice(0)" type="primary">发布公告</a-button>
-        <a-button @click="clearNoticeObj">取消</a-button>
+        <a-button @click="submitNotice" type="primary">保存草稿</a-button>
+        <a-button @click="noticeEditVisible = false">取消</a-button>
       </template>
       <a-form :form="form" class="form">
         <a-form-item
@@ -184,53 +112,39 @@ export default {
       noticeEditVisible: false, // 编辑公告
       noticePreVisible: false, // 公告预览
       isClearEditor: false,
-      searchParam: {
-        keywords: '',
-        status: 2,
-        isDraft: 2
-      },
       noticeObj: {
+        id: 1,
         name: '',
         content: '',
-        is_draft: 1
-      }
+        status: 1
+      },
+      btnStyle: 'danger'
     }
   },
   methods: {
     // 编辑公告
     editNotice (id) {
-      this.noticeList.forEach(item => {
-        if (item.id === id) {
-          this.noticeObj = {
-            id: item.id,
-            name: item.name,
-            content: item.content,
-            status: item.status,
-            is_draft: item.is_draft
-          }
-        }
-      })
-      /* this.form.setFieldsValue({
-        title: this.noticeList.name
-      }) */
+      this.getNoticeObj(id)
       this.noticeEditVisible = true
     },
     showNotice (id) {
+      this.getNoticeObj(id)
+      this.noticePreVisible = true
+    },
+    getNoticeObj (id) {
       this.noticeList.forEach(item => {
         if (item.id === id) {
           this.noticeObj = {
-            id: item.id,
+            id: 1,
             name: item.name,
             content: item.content,
-            status: item.status,
-            is_draft: item.is_draft
+            status: item.status
           }
         }
       })
-      this.noticePreVisible = true
     },
     // 上传公告
-    submitNotice (isDraft) {
+    submitNotice () {
       if (this.noticeObj.content === '') {
         this.$message.error('公告内容不能为空')
         return
@@ -238,28 +152,22 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           this.noticeObj.name = this.form.getFieldValue('title')
-          this.noticeObj.is_draft = isDraft
-          this.$axios.post('/api/notice/saveNotice', this.noticeObj).then((res) => {
+          this.$axios.post('/api/notice/modifyNotice', this.noticeObj).then((res) => {
             const result = res.data
             if (result.code === 1) {
+              this.noticeList.forEach(item => {
+                if (item.id === 1) {
+                  this.noticeObj.content = this.noticeObj.content
+                }
+              })
               this.$message.success(result.message)
+              this.noticeEditVisible = false
             } else {
               this.$message.error(result.message)
             }
           })
         }
       })
-    },
-    getNoticeObj () {},
-    // 点击取消时置空编辑公告弹窗
-    clearNoticeObj () {
-      /* this.form.setFieldsValue({
-        title: ''
-      }) */
-      this.isClearEditor = true
-      this.noticeObj.name = ''
-      this.noticeObj.content = ''
-      this.noticeEditVisible = false
     },
     // 清除编辑器内容
     clearEditorContent () {
@@ -273,51 +181,9 @@ export default {
     getEditorContent (content) {
       this.noticeObj.content = content
     },
-    addNotice () {
-      let self = this
-      if (this.noticeList.length === 0) { // 如果没有已正式发布的公告
-        this.noticeEditVisible = true
-      } else {
-        this.$confirm({
-          title: '你已有发表的公告，新增公告将转为禁用，确定继续吗',
-          content: '只能正式发布一个公告',
-          onOk () {
-            self.noticeEditVisible = true
-          },
-          onCancel () {
-            self.noticeEditVisible = false
-          },
-          class: 'test'
-        })
-      }
-    },
-    handleSearchSubmit () {
-      if (this.form.getFieldValue('title')) {
-        this.searchParam.keywords = this.form.getFieldValue('title')
-      } else {
-        this.searchParam.keywords = ''
-      }
-      this.getNoticeList()
-    },
-    handleStatusChange (e) {
-      this.searchParam.status = parseInt(e.target.value)
-      this.getNoticeList()
-    },
-    handleDraftChange (e) {
-      this.searchParam.isDraft = parseInt(e.target.value)
-      this.getNoticeList()
-    },
     getNoticeList () {
       this.tableLoading = true
-      let param = {
-        keywords: this.searchParam.keywords,
-        status: this.searchParam.status === 2 ? '' : this.searchParam.status,
-        isDraft: this.searchParam.isDraft === 2 ? '' : this.searchParam.isDraft
-      }
-      console.log(param)
-      this.$axios.get('/api/notice/getNoticeList', {
-        params: param
-      }).then(res => {
+      this.$axios.get('/api/notice/getNoticeList').then(res => {
         const result = res.data
         if (result.code === 1) {
           this.noticeList = result.data.notice_list
@@ -332,11 +198,12 @@ export default {
           switch (text) {
             case 'status':
               item.status = status === 1 ? 0 : 1
+              if (item.status === 1) {
+                this.btnStyle = 'danger'
+              } else {
+                this.btnStyle = 'primary'
+              }
               this.submitStatusChange(id, 'status', item.status)
-              break
-            case 'is_draft':
-              item.is_draft = status === 1 ? 0 : 1
-              this.submitStatusChange(id, 'is_draft', item.is_draft)
               break
           }
         }
@@ -373,9 +240,6 @@ export default {
 .container {
   background-color: #ffffff;
   height: 100%;
-  .top-wrapper {
-    padding: 6px;
-  }
   .main-wrapper {
     padding-top: 6px;
     .form-wrapper {
@@ -389,4 +253,51 @@ export default {
     }
   }
 }
+</style>
+
+<style lang="less">
+  .notice {
+    /* table 样式 */
+    table {
+      border-top: 1px solid #ccc;
+      border-left: 1px solid #ccc;
+    }
+    table td,
+    table th {
+      border-bottom: 1px solid #ccc;
+      border-right: 1px solid #ccc;
+      padding: 3px 5px;
+    }
+    table th {
+      border-bottom: 2px solid #ccc;
+      text-align: center;
+    }
+    /* blockquote 样式 */
+    blockquote {
+      display: block;
+      border-left: 8px solid #d0e5f2;
+      padding: 5px 10px;
+      margin: 10px 0;
+      line-height: 1.4;
+      font-size: 100%;
+      background-color: #f1f1f1;
+    }
+    /* code 样式 */
+    code {
+      display: inline-block;
+      *display: inline;
+      *zoom: 1;
+      background-color: #f1f1f1;
+      border-radius: 3px;
+      padding: 3px 5px;
+      margin: 0 3px;
+    }
+    pre code {
+      display: block;
+    }
+    /* ul ol 样式 */
+    ul, ol {
+      margin: 10px 0 10px 20px;
+    }
+  }
 </style>
