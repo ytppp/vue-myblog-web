@@ -6,18 +6,18 @@
         <a-list
           class="comment-list"
           itemLayout="horizontal"
-          :dataSource="data"
-        >
+          :dataSource="moodsList"
+        > 
           <a-list-item slot="renderItem" slot-scope="item">
-            <a-comment
-              :author="item.author"
-              :avatar="item.avatar"
-            >
-              <p slot="content">{{item.content}}</p>
-              <a-tooltip slot="datetime" :title="item.datetime.format('YYYY-MM-DD HH:mm:ss')">
-                <span>{{item.datetime.fromNow()}}</span>
-              </a-tooltip>
-            </a-comment>
+            <a-skeleton :loading="loading" active avatar>
+              <a-comment
+                :author="item.author"
+                :avatar="item.avatar"
+              >
+                <div slot="content" v-html="item.content"></div>
+                <span slot="datetime">{{item.datetime}}</span>
+              </a-comment>
+            </a-skeleton>
           </a-list-item>
         </a-list>
       </a-card>
@@ -26,38 +26,44 @@
 </template>
 
 <script>
-import moment from 'moment'
-import 'moment/locale/zh-cn'
+import { setTimeout } from 'timers'
 
 export default {
   data () {
     return {
-      data: [
-        {
-          actions: ['Reply to'],
-          author: 'Han Solo',
-          avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-          content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-          datetime: moment().subtract(1, 'days')
-        },
-        {
-          actions: ['Reply to'],
-          author: 'Han Solo',
-          avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-          content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-          datetime: moment().subtract(2, 'days')
-        }
-      ],
-      moment,
-      likes: 0
+      moodsList: [],
+      loading: false
     }
   },
   methods: {
-    like () {
-      this.likes = 1
-      this.dislikes = 0
-      this.action = 'liked'
+    getMoodList () {
+      let params = {
+        type: 1
+      }
+      this.loading = true
+      this.$axios.get('/api/mood/getMoodList', {
+        params
+      }).then(res => {
+        const result = res.data
+        if (result.code === 1) {
+          this.moodsList = []
+          setTimeout(() => {
+            this.loading = false
+          }, 1000)
+          result.data.words_list.forEach(item => {
+            this.moodsList.push({
+              avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              author: item.user_id,
+              content: item.content,
+              datetime: item.create_time
+            })
+          })
+        }
+      })
     }
+  },
+  beforeMount () {
+    this.getMoodList()
   }
 }
 </script>

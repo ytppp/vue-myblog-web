@@ -97,7 +97,7 @@ export default {
         content: '',
         status: 1
       },
-      noticePreVisible: true
+      noticePreVisible: false
     }
   },
   computed: {

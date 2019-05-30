@@ -31,7 +31,7 @@
             :wrapper-col="{ span: 12 }"
             v-if="moodObj.positionInfo"
           >
-            <a-input placeholder="请选择位置" v-model="moodObj.positionInfo" />
+            <a-input placeholder="请选择位置" disabled="false" v-model="moodObj.positionInfo" />
           </a-form-item>
           <a-form-item
             :wrapper-col="{ span: 8, offset: 3 }"
@@ -80,7 +80,7 @@
       </a-table>
     </a-card>
     <a-modal
-      title="Basic Modal"
+      title="位置选择"
       okText="确认"
       cancelText="取消"
       v-model="selectPositionVisible"
@@ -237,14 +237,14 @@ export default {
           switch (text) {
             case 'status':
               item.status = status === 1 ? 0 : 1
-              this.changeMoodStatus(id, 'status', item.status)
+              this.submitStatusChange(id, 'status', item.status)
               break
           }
         }
       })
       this.moodsList = moodsList
     },
-    changeMoodStatus (id, key, value) {
+    submitStatusChange (id, key, value) {
       this.$axios.get('/api/mood/changeMoodStatus', {
         params: {
           id,
