@@ -17,11 +17,11 @@ export const MENU_CONFIG = [
       {
         key: 'article-list',
         name: '文章列表'
-      },
-      {
+      }
+      /* {
         key: 'article-add',
         name: '增加文章'
-      }
+      } */
     ]
   },
   {
@@ -208,14 +208,6 @@ export const NOTICE_LIST_COLUMNS_CONFIG = [
     key: 'name'
   },
   {
-    title: '内容',
-    dataIndex: 'content',
-    key: 'content',
-    scopedSlots: {
-      customRender: 'content'
-    }
-  },
-  {
     title: '状态',
     dataIndex: 'status',
     key: 'status'
@@ -275,22 +267,34 @@ export const ARTICLE_LIST_COLUMNS_CONFIG = [
   {
     title: '状态',
     dataIndex: 'status',
-    key: 'status'
+    key: 'status',
+    scopedSlots: {
+      customRender: 'status'
+    }
   },
   {
     title: '草稿',
     dataIndex: 'is_draft',
-    key: 'is_draft'
+    key: 'is_draft',
+    scopedSlots: {
+      customRender: 'is_draft'
+    }
   },
   {
     title: '置顶',
     dataIndex: 'is_top',
-    key: 'is_top'
+    key: 'is_top',
+    scopedSlots: {
+      customRender: 'is_top'
+    }
   },
   {
     title: '热门',
     dataIndex: 'is_hot',
-    key: 'is_hot'
+    key: 'is_hot',
+    scopedSlots: {
+      customRender: 'is_hot'
+    }
   },
   {
     title: '时间',

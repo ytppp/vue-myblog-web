@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <a-back-top />
     <a-card class="card" :bordered="false">
       <div class="welcome-wrapper">
         亲爱的{{ userName }}，{{getTimeSlot}}好呀！劳累了这么久，进来休息下吧。

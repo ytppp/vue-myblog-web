@@ -1,5 +1,6 @@
 <template>
   <div class="container my-notice">
+    <a-back-top />
     <a-card class="card" title="公告管理" :bordered="false">
       <div class="main-wrapper">
         <div class="table-wrapper">
@@ -9,9 +10,6 @@
             :dataSource="noticeList"
             :loading="tableLoading"
           >
-            <template slot="content" slot-scope="text">
-              <div v-html="text"></div>
-            </template>
             <template slot="operation" slot-scope="text, record">
               <a href="javascript:;" @click="editNotice(record.id)">修改</a>
               <a-divider type="vertical" />
@@ -121,6 +119,15 @@ export default {
       btnStyle: 'danger'
     }
   },
+  computed: {
+    noticeContentFilter () {
+      if (this.noticeObj.content.trim().length > 10) {
+        return this.noticeObj.content.trim().substring(0, 10) + '...'
+      } else {
+        return this.noticeObj.content
+      }
+    }
+  },
   methods: {
     // 编辑公告
     editNotice (id) {
@@ -133,7 +140,7 @@ export default {
     },
     getNoticeObj (id) {
       this.noticeList.forEach(item => {
-        if (item.id === id) {
+        if (id === item.id) {
           this.noticeObj = {
             id: 1,
             name: item.name,

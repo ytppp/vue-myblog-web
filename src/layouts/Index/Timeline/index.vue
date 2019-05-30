@@ -1,31 +1,54 @@
 <template>
-  <section class="main-content-wrapper">
-    <a-row :gutter="18">
-      <a-col :span="16">
+  <section class="container">
+    <a-back-top />
+    <div class="content-center">
+      <a-card title="时间轴" :hoverable="true">
         <a-timeline mode="alternate">
-          <a-timeline-item>Create a services site 2015-09-01</a-timeline-item>
-          <a-timeline-item color="green">Solve initial network problems 2015-09-01</a-timeline-item>
-          <a-timeline-item>
-            <a-icon slot="dot" type="clock-circle-o" style="font-size: 16px;" />
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-          </a-timeline-item>
-          <a-timeline-item color="red">Network problems being solved 2015-09-01</a-timeline-item>
-          <a-timeline-item>Create a services site 2015-09-01</a-timeline-item>
-          <a-timeline-item>
-            <a-icon slot="dot" type="clock-circle-o" style="font-size: 16px;" />
-            Technical testing 2015-09-01
-          </a-timeline-item>
+          <a-timeline-item
+            color="green"
+            v-for="(value, index) in historyList"
+            :key="index"
+          >{{ value }}</a-timeline-item>
         </a-timeline>
-      </a-col>
-      <a-col :span="8"></a-col>
-    </a-row>
+      </a-card>
+    </div>
   </section>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      historyList: []
+    }
+  },
+  methods: {
+    // 获得时间轴列表
+    getTimeaxisList () {
+      this.historyList = []
+      this.$axios.get('/api/timeaxis/getTimeaxisList').then(res => {
+        const result = res.data
+        if (result.code === 1) {
+          let timeAxisList = result.data.timeaxis_list
+          timeAxisList.forEach(item => {
+            this.historyList.push(`${item.content} ${item.create_time}`)
+          })
+        }
+      })
+    }
+  },
+  beforeMount () {
+    this.getTimeaxisList()
+  }
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+.container {
+  height: 100%;
+  .content-center {
+    max-width: 960px;
+    margin: 0 auto 20px;
+  }
+}
 </style>

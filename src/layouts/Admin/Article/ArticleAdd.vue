@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <a-back-top />
     <a-card class="card" title="发表文章" :bordered="false">
       <article-add-form></article-add-form>
     </a-card>

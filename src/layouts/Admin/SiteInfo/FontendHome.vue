@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <a-back-top />
     <a-card class="card" title="首页焦点图管理" :bordered="false">
       <a-card class="card" title="图片上传" :bordered="false">
         <a-upload

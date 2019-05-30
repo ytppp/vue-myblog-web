@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <a-back-top />
     <header-con></header-con>
     <div class="main">
       <a-tabs defaultActiveKey="1" tabPosition="left" @prevClick="callback" @nextClick="callback">
@@ -37,9 +38,9 @@ export default {
 
 <style lang="less" scoped>
 .container {
-  height: 100vh;
+  height: 100%;
   .main {
-    width: 1000px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 }

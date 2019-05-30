@@ -1,5 +1,6 @@
 <template>
   <div class="home-wrapper">
+    <a-back-top />
     <nav class="nav-list-wrapper">
       <ul class="nav-list">
         <li class="nav-item active"><a href="#">推荐</a></li>
@@ -57,6 +58,9 @@ export default {
 </script>
 
 <style scoped>
+.home-wrapper {
+  height: 100%;
+}
 .nav-list-wrapper {
   height: 30px;
 }

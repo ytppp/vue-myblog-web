@@ -18,10 +18,6 @@ export default new Router({
       component: () => import('./views/Register')
     },
     {
-      path: '/user-center',
-      component: () => import('./layouts/Index/UserCenter')
-    },
-    {
       path: '/index',
       component: () => import('./views/Index'),
       children: [
@@ -29,10 +25,10 @@ export default new Router({
           path: 'home',
           component: () => import('./layouts/Index/Home')
         },
-        {
+        /* {
           path: 'list',
           component: () => import('./layouts/Index/List')
-        },
+        }, */
         {
           path: 'detail',
           component: () => import('./layouts/Index/Detail')
@@ -48,6 +44,14 @@ export default new Router({
         {
           path: 'timeline',
           component: () => import('./layouts/Index/Timeline')
+        },
+        {
+          path: 'about',
+          component: () => import('./layouts/Index/About')
+        },
+        {
+          path: '/user-center',
+          component: () => import('./layouts/Index/UserCenter')
         }
       ]
     },

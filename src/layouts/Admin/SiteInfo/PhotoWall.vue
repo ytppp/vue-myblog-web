@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <a-back-top />
     <a-card class="card" title="照片墙" :bordered="false">
       <h1>此功能暂未开放</h1>
     </a-card>

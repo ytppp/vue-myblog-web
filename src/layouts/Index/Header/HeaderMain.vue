@@ -8,17 +8,11 @@
       <ul class="nav-list">
         <li class="main-nav-list">
           <ul class="menu-list">
-            <li class="nav-item link-item">
-              <a href="#">首页</a>
-            </li>
-            <li class="nav-item link-item">
-              <a href="#">关于自己</a>
-            </li>
-            <li class="nav-item link-item">
-              <a href="#">留言板</a>
-            </li>
-            <li class="nav-item link-item">
-              <a href="#">心情</a>
+            <li class="nav-item link-item"
+              v-for="(item, index) in navList"
+              :key="index"
+              @click="goIndexSonPage(index, item.key)">
+              <a :class="[index === activeIndex ? 'link-active' : 'link-normal']" href="javascript:;">{{ item.name }}</a>
             </li>
           </ul>
         </li>
@@ -83,7 +77,34 @@ export default {
   },
   data () {
     return {
-      searchValue: ''
+      searchValue: '',
+      activeIndex: 0,
+      navList: [
+        {
+          key: 'home',
+          name: '首页'
+        },
+        {
+          key: 'about',
+          name: '关于'
+        },
+        {
+          key: 'mood',
+          name: '心情墙'
+        },
+        {
+          key: 'message',
+          name: '留言板'
+        },
+        {
+          key: 'timeline',
+          name: '站点时间轴'
+        },
+        {
+          key: 'user-center',
+          name: '个人中心'
+        }
+      ]
     }
   },
   methods: {
@@ -105,6 +126,10 @@ export default {
     },
     goRegPage () {
       this.$router.push('/register')
+    },
+    goIndexSonPage (i, key) {
+      this.activeIndex = i
+      this.$router.push('/index/' + key)
     }
   },
   beforeCreate () {
@@ -150,6 +175,15 @@ export default {
 .link-item {
   padding: 0 16px;
   height: 50px;
+}
+.link-item a {
+  text-decoration: none;
+}
+.link-normal {
+  color:#71777c
+}
+.link-active {
+  color: #007fff;
 }
 .nav-item {
   color: #71777c;

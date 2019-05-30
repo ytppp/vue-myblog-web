@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div class="app-container">
     <header-con></header-con>
-    <keep-alive><router-view></router-view></keep-alive>
+    <div>
+      <router-view></router-view>
+    </div>
     <footer-con></footer-con>
   </div>
 </template>
@@ -17,3 +19,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.app-container {
+  min-height: 100vh
+}
+</style>

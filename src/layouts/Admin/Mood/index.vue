@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <a-back-top />
     <a-card class="card" title="心情管理" :bordered="false">
       <a-form :form="form" class="form">
         <a-row class="form-row">

@@ -35,5 +35,12 @@ export default {
     .page-toggle-enter, .page-toggle-leave-to{
       opacity: 0;
     }
+    .text-filter {
+      overflow : hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
   }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <a-back-top />
     <a-card class="card" title="关于自己" :bordered="false">
       <a-form :form="siterForm" class="form">
         <a-row class="form-row">

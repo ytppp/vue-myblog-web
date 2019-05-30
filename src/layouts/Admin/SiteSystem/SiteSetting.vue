@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <a-back-top />
     <a-card class="card" title="站点设置" :bordered="false">
       <a-form :form="form" class="form" @submit="updateSiteInfo">
         <a-row class="form-row">

@@ -1,7 +1,8 @@
 <template>
-  <section class="main-content-wrapper">
-    <a-row :gutter="18">
-      <a-col :span="16">
+  <section class="container">
+    <a-back-top />
+    <div class="content-center">
+      <a-card title="留言板" :hoverable="true">
         <a-list
           class="comment-list"
           itemLayout="horizontal"
@@ -33,9 +34,8 @@
             </a-comment>
           </a-list-item>
         </a-list>
-      </a-col>
-      <a-col :span="8"></a-col>
-    </a-row>
+      </a-card>
+    </div>
   </section>
 </template>
 
@@ -76,10 +76,12 @@ export default {
 }
 </script>
 
-<style scoped>
-.main-content-wrapper {
-  max-width: 960px;
-  margin: 0 auto;
+<style lang="less" scoped>
+.container {
   height: 100%;
+  .content-center {
+    max-width: 960px;
+    margin: 0 auto 20px;
+  }
 }
 </style>

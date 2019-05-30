@@ -1,6 +1,6 @@
 <template>
   <footer class="footer-box">
-    Copyright &copy;{{thisYear}} 杨庭培
+    Copyright ©{{thisYear}} Created by 杨庭培
   </footer>
 </template>
 
@@ -16,8 +16,8 @@ export default {
 
 <style scoped>
 .footer-box {
-  height: 30px;
-  line-height: 30px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
   background-color: #364d79;
   font-size: 12px;

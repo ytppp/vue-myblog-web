@@ -1,5 +1,6 @@
 <template>
   <div class="main-wrapper">
+    <a-back-top />
     <a-card class="card" title="文章列表" :bordered="false">
       <div class="top-wrapper">
         <div class="form-wrapper">
@@ -111,6 +112,10 @@
           :dataSource="articleList"
           :loading="tableLoading"
         >
+          <span slot="status" slot-scope="text">{{ text === 1 ? '公开' : '私密'}}</span>
+          <span slot="is_draft" slot-scope="text">{{ text === 1 ? '草稿' : '发表'}}</span>
+          <span slot="is_top" slot-scope="text">{{ text === 1 ? '置顶' : '非置顶'}}</span>
+          <span slot="is_hot" slot-scope="text">{{ text === 1 ? '热门' : '非热门'}}</span>
           <template slot="operation" slot-scope="text, record">
             <a href="javascript:;" @click="goArticleEdit(record.id)">编辑</a>
             <a-divider type="vertical" />
@@ -130,16 +135,16 @@
               </a>
               <a-menu slot="overlay">
                 <a-menu-item>
-                  <a href="javascript:;" @click="changeArtStatus('status', record.id, record.status)">{{ record.status === '公开' ? '转为私密' : '转为公开' }}</a>
+                  <a href="javascript:;" @click="changeArtStatus('status', record.id, record.status)">{{ record.status === 1 ? '转为私密' : '转为公开' }}</a>
                 </a-menu-item>
                 <a-menu-item>
-                  <a href="javascript:;" @click="changeArtStatus('is_draft', record.id, record.is_draft)">{{ record.is_draft === '草稿' ? '转为发表' : '转为草稿' }}</a>
+                  <a href="javascript:;" @click="changeArtStatus('is_draft', record.id, record.is_draft)">{{ record.is_draft === 1 ? '转为发表' : '转为草稿' }}</a>
                 </a-menu-item>
                 <a-menu-item>
-                  <a href="javascript:;" @click="changeArtStatus('is_top', record.id, record.is_top)">{{ record.is_top === '置顶' ? '取消置顶' : '转为置顶' }}</a>
+                  <a href="javascript:;" @click="changeArtStatus('is_top', record.id, record.is_top)">{{ record.is_top === 1 ? '取消置顶' : '转为置顶' }}</a>
                 </a-menu-item>
                 <a-menu-item>
-                  <a href="javascript:;" @click="changeArtStatus('is_hot', record.id, record.is_hot)">{{ record.is_hot === '热门' ? '取消热门' : '转为热门' }}</a>
+                  <a href="javascript:;" @click="changeArtStatus('is_hot', record.id, record.is_hot)">{{ record.is_hot === 1 ? '取消热门' : '转为热门' }}</a>
                 </a-menu-item>
               </a-menu>
             </a-dropdown>
@@ -159,7 +164,7 @@
       <template slot="footer">
         <a-button type="primary" @click="articleViewVisible = false">确认</a-button>
       </template>
-      <article-detail :article="articleObj"></article-detail>
+      <article-detail :article="articleObj" :operates="operates" ></article-detail>
     </a-modal>
 
     <!-- 文章删除弹窗 -->
@@ -253,6 +258,9 @@ export default {
       articleInfo: {
         id: '',
         title: ''
+      },
+      operates: {
+        isShowBottom: false
       },
       articleTitle: '',
       articleDeleteVisible: false
@@ -412,29 +420,24 @@ export default {
     },
     changeArtStatus (text, id, status) {
       const articleList = [...this.articleList]
-      let val = 1
       articleList.forEach(item => {
         if (item.id === id) {
           switch (text) {
             case 'status':
-              item.status = status === '公开' ? '私密' : '公开'
-              val = item.status === '公开' ? 1 : 0
-              this.changeStatus(id, 'status', val)
+              item.status = status === 1 ? 0 : 1
+              this.changeStatus(id, 'status', item.status)
               break
             case 'is_draft':
-              item.is_draft = status === '草稿' ? '发表' : '草稿'
-              val = item.is_draft === '草稿' ? 1 : 0
-              this.changeStatus(id, 'is_draft', val)
+              item.is_draft = status === 1 ? 0 : 1
+              this.changeStatus(id, 'is_draft', item.is_draft)
               break
             case 'is_top':
-              item.is_top = status === '置顶' ? '非置顶' : '置顶'
-              val = item.is_top === '置顶' ? 1 : 0
-              this.changeStatus(id, 'is_top', val)
+              item.is_top = status === 1 ? 0 : 1
+              this.changeStatus(id, 'is_top', item.is_top)
               break
             case 'is_hot':
-              item.is_hot = status === '热门' ? '非热门' : '热门'
-              val = item.is_hot === '热门' ? 1 : 0
-              this.changeStatus(id, 'is_hot', val)
+              item.is_hot = status === 1 ? 0 : 1
+              this.changeStatus(id, 'is_hot', item.is_hot)
               break
           }
         }

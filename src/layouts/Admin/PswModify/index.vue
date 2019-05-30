@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <a-back-top />
     <a-row :gutter="16">
       <a-col :span="8"></a-col>
       <a-col :span="8">

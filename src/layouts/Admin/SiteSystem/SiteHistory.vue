@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <a-back-top />
     <a-card class="card" title="网站版本管理" :bordered="false">
       <a-form :form="form" @submit="handleSubmit">
           <a-form-item
@@ -95,7 +96,7 @@ export default {
         }
       })
     },
-    // 获得文章列表
+    // 获得时间轴列表
     getTimeaxisList () {
       this.tableLoading = true
       this.$axios.get('/api/timeaxis/getTimeaxisList').then(res => {

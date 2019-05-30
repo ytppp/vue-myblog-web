@@ -22,9 +22,9 @@
                           whitespace: true 
                         },
                         {
-                          max: 20,
+                          max: 50,
                           min: 1,
-                          message: '标题长度在1到20个字符之间'
+                          message: '标题长度在1到50个字符之间'
                         }
                       ]
                     }
@@ -65,7 +65,7 @@
                   v-decorator="[
                     'article_type_id',
                     { 
-                      initialValue: cateList && cateList[0] && cateList[0].id ? cateList[0].id : 2,
+                      initialValue: articleObj.cate_id === 0 ? cateList[0].id : articleObj.cate_id,
                       rules: [
                         {
                           required: true,
@@ -295,7 +295,7 @@ export default {
         id: '',
         title: '',
         status: 1, // 1 公开 0 是私密
-        cate_id: 1,
+        cate_id: 0,
         author_id: 1,
         author: '',
         url_address: '',
@@ -325,7 +325,9 @@ export default {
           this.$axios.post('/api/article/saveArticle', this.articleObj).then((res) => {
             const result = res.data
             if (result.code === 1) {
-              this.$message.success(result.message)
+              this.$message.success(result.message, 2).then(() => {
+                this.$router.push('/admin/article-list')
+              })
             } else {
               this.$message.error(result.message)
             }
@@ -403,8 +405,10 @@ export default {
           this.articleObj.author = this.coverAuthorId(result.data.author_id)
           if (this.articleObj.author_id === 2) {
             this.articleObj.url_address = result.data.url_address
+            this.urlFormItem = true
           } else {
             this.articleObj.url_address = ''
+            this.urlFormItem = false
           }
           this.articleObj.is_draft = result.data.is_draft
           this.articleObj.update_person_id = result.data.update_person_id

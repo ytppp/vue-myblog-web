@@ -1,47 +1,49 @@
 <template>
   <div class="article-box">
-    <article class="article-detail-wrapper">
-      <h1 class="article-title">
-        {{ article.title }}
-      </h1>
-      <div class="article-info">
-        <div class="text-muted info-item">
-          阅读&nbsp;{{ article.pv }}
+    <a-card :hoverable="true">
+      <article class="article-detail-wrapper">
+        <h1 class="article-title">
+          {{ article.title }}
+        </h1>
+        <div class="article-info">
+          <div class="text-muted info-item">
+            阅读&nbsp;{{ article.pv }}
+          </div>
+          <div class="text-muted info-item">
+            收藏&nbsp;{{ article.save_num }}
+          </div>
+          <div class="text-muted info-item">
+            赞&nbsp;{{ article.like_num }}
+          </div>
+          <div class="text-muted info-item">
+            {{ article.update_time }}
+          </div>
         </div>
-        <div class="text-muted info-item">
-          收藏&nbsp;{{ article.save_num }}
+        <div class="article-url" v-show="article.url_address">
+          原文链接&nbsp;
+          <a :href="article.url_address" target="_blank">
+            {{ article.url_address }}
+          </a>
         </div>
-        <div class="text-muted info-item">
-          赞&nbsp;{{ article.like_num }}
+        <div class="article-img" v-show="article.avatar">
+          <img :src="article.avatar" alt="文章封面">
         </div>
-        <div class="text-muted info-item">
-          {{ article.update_time }}
+        <div class="article-author text-muted">
+          作者｜{{ article.author }}
         </div>
-      </div>
-      <div class="article-url" v-show="article.url_address">
-        原文链接&nbsp;
-        <a href="#">
-          {{ article.url_address }}
-        </a>
-      </div>
-      <div class="article-img" v-show="article.avatar">
-        <img :src="article.avatar" alt="文章封面">
-      </div>
-      <div class="article-author text-muted">
-        作者｜{{ article.author }}
-      </div>
-      <div class="article-content" style="margin-top: 0">
-        <div class="content-style" v-html="article.content"></div>
-      </div>
-      <div class="article-operate" v-show="operates.isShowBottom">
-        <span class="operate-item">
-          <a-icon type="star-o" />
-        </span>
-        <span class="operate-item">
-          <a-icon type="like-o"/>
-        </span>
-      </div>
-    </article>
+        <div class="article-content" style="margin-top: 0">
+          <div class="content-style" v-html="article.content"></div>
+        </div>
+        <div class="article-operate" v-show="operates.isShowBottom">
+          <span class="operate-item">
+            <a-icon type="star-o" />
+          </span>
+          <span class="operate-item">
+            <a-icon type="like-o"/>
+          </span>
+        </div>
+      </article>
+    </a-card>
   </div>
 </template>
 

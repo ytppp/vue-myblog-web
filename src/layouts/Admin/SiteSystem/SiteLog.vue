@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <a-back-top />
     <a-card class="card" title="网站日志" :bordered="false">
       <a-table
         :rowKey="record => record.id"
